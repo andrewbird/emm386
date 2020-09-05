@@ -337,7 +337,7 @@ interrupt:
 ; good enough for FreeDOS=UMB, for nothing else :-)
 ;*********************************************************
 
-public _UMBhandler, _UMBoldhandler
+public _UMBhandler, _UMBOldhandler
 
 _UMBhandler:
 
@@ -364,8 +364,8 @@ TheUMBHandler:
 
 
 not_for_us:
-	db 0eah					    ; jmp far  UMBoldhandler
-_UMBoldhandler dd 0
+	db 0eah					    ; jmp far  UMBOldhandler
+_UMBOldhandler dd 0
 
 
 

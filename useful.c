@@ -241,9 +241,3 @@ int StartupLogging()
 	else
 		return FALSE;		
 }
-
-	
-	
-	
-	
-	

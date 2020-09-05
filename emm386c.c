@@ -381,7 +381,7 @@ int isUMBMemory(ushort base)
 	return value is in 4K pages
 	does not count mapping at FF00
 */
-UMBpageswanted(void)
+int UMBpageswanted(void)
 {
 	int i,wanted = 0;
 /*	for (wanted = 0, i = 0xa0; i < 0xf0; i+=4)	*/
@@ -411,7 +411,7 @@ int xmscall(uint function)
 /*	asm mov cx,xmscx	*/
 	asm mov bx,xmsbx
 /*	asm mov ax,xmsax	*/
-	asm mov ah,function
+	asm mov ah,byte ptr [function]
 
 	XMSdriverAdress();
 
@@ -432,7 +432,7 @@ int xmscall32(uint function)
 	asm mov dx,reg32.edx_low
 	asm db 0x66
 	asm mov bx,reg32.ebx_low
-	asm mov ah,function
+	asm mov ah,byte ptr [function]
 
 	XMSdriverAdress();
 
@@ -549,13 +549,18 @@ cant_enable:
 
 */
 
-XMSallocAndInitMem(unsigned long kbneeded, unsigned long kbwanted)
+int XMSallocAndInitMem(unsigned long kbneeded, unsigned long kbwanted)
 {   
 	unsigned long xmslargest;
 	unsigned long xmstotal;
+#if 0
 	unsigned long preallocate;
+#endif
 	unsigned long ulcalc;
-	ushort xmshandle, temphandle;
+	ushort xmshandle;
+#if 0
+	ushort temphandle;
+#endif
 	int xmsspec3 = 0;
 	int badstatus;
 /*	unsigned long reserve = 0;	*/
@@ -884,7 +889,7 @@ foundend:
 
 #if 0
 	/* EMM386 no longer disallows 0xa000 upper memory block returns */
-                                           / * this could cause weird bugs 
+                                           /* this could cause weird bugs
                                               if upper memory a000 would ever
                                               be merged with 9fff:0        */
 			if (UMBsegments[index].segment == 0xa000)
@@ -1149,7 +1154,7 @@ int TheRealMain(int mode, char far *commandline)
 		
 			printf("%c=%x..%x\n",memtype, rangestart,rangestop);
 			
-			if (rangestart && rangestop && rangestart<=rangestop && rangestop <= 0xffff)
+			if (rangestart && rangestop && rangestart<=rangestop /*&& rangestop <= 0xffff*/)
 				for ( ; rangestart < rangestop; rangestart++)
 					SetMemoryType(rangestart,memtype);
 				
@@ -1289,7 +1294,7 @@ int TheRealMain(int mode, char far *commandline)
 		printf("  MONITOR_ADDR  %lx EMM_MEMORY_END %lx TOTAL_MEMORY  %lx\n",
 			MONITOR_ADDR,EMM_MEMORY_END, TOTAL_MEMORY);
 
-	/* InstallUMBhandler();		/* as long as we can debug it */
+	/*InstallUMBhandler();*/	/* as long as we can debug it */
 			
 			
 
@@ -1306,6 +1311,7 @@ int TheRealMain(int mode, char far *commandline)
 /* called just before we go resident
 */ 
 void MyFunnyMain(void);
+int emmcall(uint function);
  
 void far finishing_touches()
 { 

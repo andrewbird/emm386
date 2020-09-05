@@ -158,7 +158,7 @@ void fillMem(long *buff,int hnum, int offsetK)
 long buff1[256];
 long buff2[256];
 
-XMSmove(unsigned dhandle, long doffset,
+int XMSmove(unsigned dhandle, long doffset,
         unsigned shandle, long soffset,
         long length)
 {
@@ -289,7 +289,7 @@ end:
 }
 #endif /* TEST_XMS_REALLOC */
 
-XMSTESTmain(char verbose)
+int XMSTESTmain(char verbose)
 {
     int numhandles;
     unsigned maxfree;
@@ -562,7 +562,7 @@ error_reverify:
 */	
 
 
-XMSKILL64()
+int XMSKILL64()
 {
 #ifndef __KILL64
 	printf("KILL64 not implemented\n");

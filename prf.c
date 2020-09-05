@@ -52,12 +52,12 @@ static BYTE *prfRcsId = "$Id: PRF.C,v 1.2 2007-07-04 23:04:02 perditionc Exp $";
 static BYTE *charp = 0;
 
 #ifdef PROTO
-VOID handle_char(COUNT);
+static VOID handle_char(COUNT);
 VOID put_console(COUNT);
 BYTE *ltob(LONG, BYTE *, COUNT);
 COUNT do_printf(CONST BYTE *, REG BYTE **);
 #else
-VOID handle_char();
+static VOID handle_char();
 VOID put_console();
 BYTE *ltob();
 COUNT do_printf();
